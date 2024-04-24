@@ -1,5 +1,6 @@
 package app.frontend;
 
+import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import spotify.AuthController;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
-public class Login {
+public class Login extends JFrame{
     private JPanel panel1;
     private JPanel accentColor;
     private JLabel usernameLabel;
@@ -21,20 +22,16 @@ public class Login {
     private JButton loginButton;
 
     public static void main(String[] args) {
-        Desktop desk = Desktop.getDesktop();
-        try {
-            URI uri = new URI(AuthController.spotifyLogin());
-            desk.browse(uri);
-        } catch (URISyntaxException | IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        Login login = new Login();
     }
+
     public Login() {
+        super("Testing the login");
+        this.getContentPane().add(panel1, BorderLayout.CENTER);
+        this.setEnabled(true);
+        this.setVisible(true);
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String usernameText = usernameLabel.getText();
-                String password = Arrays.toString(passwordText.getPassword());
-
                 Desktop desk = Desktop.getDesktop();
                 try {
                     URI uri = new URI(AuthController.spotifyLogin());
