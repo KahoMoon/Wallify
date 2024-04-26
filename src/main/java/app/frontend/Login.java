@@ -1,6 +1,5 @@
 package app.frontend;
 
-import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import spotify.AuthController;
 
 import javax.swing.*;
@@ -10,9 +9,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 
-public class Login extends JFrame{
+public class Login {
     private JPanel panel1;
     private JPanel accentColor;
     private JLabel usernameLabel;
@@ -22,14 +20,17 @@ public class Login extends JFrame{
     private JButton loginButton;
 
     public static void main(String[] args) {
-        Login login = new Login();
+        new Login();
     }
 
     public Login() {
-        super("Testing the login");
-        this.getContentPane().add(panel1, BorderLayout.CENTER);
-        this.setEnabled(true);
-        this.setVisible(true);
+        JFrame jFrame = new JFrame();
+        jFrame.setContentPane(panel1);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setTitle("This is a test");
+        jFrame.setSize(700, 400);
+        jFrame.setVisible(true);
+
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Desktop desk = Desktop.getDesktop();
