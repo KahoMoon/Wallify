@@ -17,7 +17,6 @@ public class LoginExplanation {
 
     JFrame jFrame;
     private JPanel loginExplanationPanel;
-
     private JPanel explanationPanel;
     private JLabel exampleImage1Label;
     private JLabel exampleImage2Label;
@@ -59,6 +58,7 @@ public class LoginExplanation {
             }
         });
 
+        //opens Spotify permissions page in browser on button click
         loginToSpotifyButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -71,13 +71,13 @@ public class LoginExplanation {
                     throw new RuntimeException(ex);
                 }
 
-                String responseURL = "http://localhost:3000/?code=AQC1cLeVtoz9P2yWwO40XBu1ZLTZXouKUZA0PtKEzYZSDbdL_7gTpOgp7Ho4nljqKzUFXSLXnAGlNqDnHCWRRKC8u3RJ48Jqrn7gelIRvwRvH94b0K53dxr6ztMnur95zqEW8HExKDOrL-nip4SQdFI806yiYz7w7jUjkm_M3tLWj8VbUrBkGyMbSHNiBrR8dWrIH5zjWIkjdUXHVy28PC4Leuun_az_8lBIa2OOrV-aBh7L6mylT-KBJ1QhPsdDbTCssCma7mumtDFV4x_OVjjxO5FA_Lm4ZmVuLiTy7tCJydoFhuAMsbzfXFEEMKrfHzg7fulFcVCI_aIl";
-                Map<String, String> response = null;
-                try {
-                    response = AuthController.splitQuery(new URI(responseURL).toURL());
-                } catch (UnsupportedEncodingException | MalformedURLException | URISyntaxException ex) {
-                    throw new RuntimeException(ex);
-                }
+//                String responseURL = "http://localhost:3000/?code=AQC1cLeVtoz9P2yWwO40XBu1ZLTZXouKUZA0PtKEzYZSDbdL_7gTpOgp7Ho4nljqKzUFXSLXnAGlNqDnHCWRRKC8u3RJ48Jqrn7gelIRvwRvH94b0K53dxr6ztMnur95zqEW8HExKDOrL-nip4SQdFI806yiYz7w7jUjkm_M3tLWj8VbUrBkGyMbSHNiBrR8dWrIH5zjWIkjdUXHVy28PC4Leuun_az_8lBIa2OOrV-aBh7L6mylT-KBJ1QhPsdDbTCssCma7mumtDFV4x_OVjjxO5FA_Lm4ZmVuLiTy7tCJydoFhuAMsbzfXFEEMKrfHzg7fulFcVCI_aIl";
+//                Map<String, String> response = null;
+//                try {
+//                    response = AuthController.splitQuery(new URI(responseURL).toURL());
+//                } catch (UnsupportedEncodingException | MalformedURLException | URISyntaxException ex) {
+//                    throw new RuntimeException(ex);
+//                }
 
                 jFrame.dispose();
                 new PasteURL();
@@ -85,6 +85,7 @@ public class LoginExplanation {
         });
     }
 
+    //scales an image while maintaining aspect ratio
     public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
 
         int original_width = imgSize.width;
