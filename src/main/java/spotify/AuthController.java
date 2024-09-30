@@ -1,6 +1,5 @@
 package spotify;
 
-import app.frontend.Login;
 import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
@@ -9,19 +8,17 @@ import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCrede
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AuthController {
 
     public static void main(String[] args) throws MalformedURLException, UnsupportedEncodingException {
-        System.out.println(splitQuery(new URL(spotifyRedirectUriResponse)));
+        System.out.println(parseUrl(new URL(spotifyRedirectUriResponse)));
     }
 
     /*A hard coded url for post-Spotify-permission acceptance. Use only for development and testing*/
@@ -29,6 +26,8 @@ public class AuthController {
 
     /*URL that the user is redirected to after accepting the permissions (need to change to custom URL protocol)*/
     private static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:3000");
+
+    /*Spotify user code used to request access token*/
     private static String code = "";
 
     //necessary for Spotify API access
@@ -54,7 +53,7 @@ public class AuthController {
     /*Parses the given URL and returns the key value pairs
     * @param url the url that will be parsed
     * @return the key value pairs from the url*/
-    public static Map<String, String> splitQuery(URL url) throws UnsupportedEncodingException {
+    public static Map<String, String> parseUrl(URL url) throws UnsupportedEncodingException {
         Map<String, String> query_pairs = new LinkedHashMap<String, String>();
         String query = url.getQuery();
         String[] pairs = query.split("&");
@@ -83,7 +82,7 @@ public class AuthController {
 
     /*Requests the user's Spotify access token
     * @return the user access token in the case of a successful request*/
-    public static String getSpotifyUserCode(String userCode) {
+    public static String getSpotifyAccessToken(String userCode) {
         code = userCode;
         AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code).build();
 
@@ -99,5 +98,12 @@ public class AuthController {
         }
 
         return spotifyApi.getAccessToken();
+    }
+
+    public static String getSpotifyUserCode() {
+        if (Objects.equals(code, "")) {
+            return null;
+        }
+        return code;
     }
 }
