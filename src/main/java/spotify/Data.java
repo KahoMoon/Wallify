@@ -71,14 +71,12 @@ public class Data {
         return playlistSimplifiedPaging.getItems();
     }
 
-    public static Track[] getPlaylistItems(String playlistID) {
+    public static PlaylistTrack[] getPlaylistItems(String playlistID) {
         GetPlaylistsItemsRequest getPlaylistsItemsRequest = spotifyApi.getPlaylistsItems(playlistID).build();
         try {
             Paging<PlaylistTrack> playlistTrackPaging = getPlaylistsItemsRequest.execute();
-
+            return playlistTrackPaging.getItems();
         } catch (IOException | ParseException | SpotifyWebApiException e) {
-            return new Track[0];
-        }
-        return new Track[0];
-    }
+            return new PlaylistTrack[0];
+        }}
 }
