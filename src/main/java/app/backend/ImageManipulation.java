@@ -1,4 +1,4 @@
-package app.frontend;
+package app.backend;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,26 +10,21 @@ import java.net.URISyntaxException;
 
 public class ImageManipulation {
 
-    public static void main(String[] args) throws IOException {
-        File outputFile = new File("testImage");
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        File outputFile = new File("testImage.png");
         String[] urls = new String[]{"https://i.scdn.co/image/ab67616d0000b2731c76e29153f29cc1e1b2b434", "https://i.scdn.co/image/ab67616d0000b27353b879d4b7a804e3c52fcd8b", "https://i.scdn.co/image/ab67616d0000b2730cef6fbea2d695cedc33b2db", "https://i.scdn.co/image/ab67616d0000b273df55e326ed144ab4f5cecf95"};
         BufferedImage testImage = stitchImages(urls, 2);
-        assert testImage != null;
         ImageIO.write(testImage, "png", outputFile);
     }
 
     private static final int SPOTIFYIMAGEWIDTHHEIGHTPIXELS = 640;
 
-    public static Image getImageFromURL(String url) {
-        try {
+    public static Image getImageFromURL(String url) throws URISyntaxException, IOException {
             URI imageURl = new URI(url);
             return ImageIO.read(imageURl.toURL());
-        } catch (IOException | URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
     }
 
-    public static Image[] getImagesFromURl(String[] urls) {
+    public static Image[] getImagesFromURls(String[] urls) throws URISyntaxException, IOException {
         Image[] images = new Image[urls.length];
         for (int i = 0; i < urls.length; i++) {
             images[i] = getImageFromURL(urls[i]);
@@ -38,10 +33,10 @@ public class ImageManipulation {
         return images;
     }
 
-    public static BufferedImage stitchImages(String[] urls, int finalNumOfRowCol) {
+    public static BufferedImage stitchImages(String[] urls, int finalNumOfRowCol) throws URISyntaxException, IOException {
         BufferedImage finalImage = new BufferedImage(SPOTIFYIMAGEWIDTHHEIGHTPIXELS * finalNumOfRowCol, SPOTIFYIMAGEWIDTHHEIGHTPIXELS * finalNumOfRowCol, BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = finalImage.createGraphics();
-        Image[] images = getImagesFromURl(urls);
+        Image[] images = getImagesFromURls(urls);
 
         int x = 0;
         int y = 0;
@@ -66,5 +61,7 @@ public class ImageManipulation {
 
         return finalImage;
     }
+
+
 
 }
