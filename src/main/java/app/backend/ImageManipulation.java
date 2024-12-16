@@ -13,7 +13,7 @@ public class ImageManipulation {
     public static void main(String[] args) throws IOException, URISyntaxException {
         File outputFile = new File("testImage.png");
         String[] urls = new String[]{"https://i.scdn.co/image/ab67616d0000b2731c76e29153f29cc1e1b2b434", "https://i.scdn.co/image/ab67616d0000b27353b879d4b7a804e3c52fcd8b", "https://i.scdn.co/image/ab67616d0000b2730cef6fbea2d695cedc33b2db", "https://i.scdn.co/image/ab67616d0000b273df55e326ed144ab4f5cecf95"};
-        BufferedImage testImage = stitchImages(urls, 2);
+        BufferedImage testImage = stitchImages(urls, 1, 4);
         ImageIO.write(testImage, "png", outputFile);
     }
 
@@ -50,6 +50,35 @@ public class ImageManipulation {
 
                 //check if y coordinate finished with bottom right
                 if (y >= SPOTIFYIMAGEWIDTHHEIGHTPIXELS * finalNumOfRowCol) {
+                    return finalImage;
+                }
+            }
+
+            graphics.drawImage(images[imageNum], x, y, null);
+            x += SPOTIFYIMAGEWIDTHHEIGHTPIXELS;
+            imageNum++;
+        }
+
+        return finalImage;
+    }
+
+    public static BufferedImage stitchImages(String[] urls, int finalNumOfRows, int finalNumOfCols) throws URISyntaxException, IOException {
+        BufferedImage finalImage = new BufferedImage(SPOTIFYIMAGEWIDTHHEIGHTPIXELS * finalNumOfCols, SPOTIFYIMAGEWIDTHHEIGHTPIXELS * finalNumOfRows, BufferedImage.TYPE_INT_ARGB);
+        Graphics graphics = finalImage.createGraphics();
+        Image[] images = getImagesFromURls(urls);
+
+        int x = 0;
+        int y = 0;
+        int imageNum = 0;
+        while (imageNum <= finalNumOfRows * finalNumOfCols) {
+
+            //check if x coordinate is at end of row
+            if (x >= SPOTIFYIMAGEWIDTHHEIGHTPIXELS * finalNumOfCols) {
+                x = 0;
+                y += SPOTIFYIMAGEWIDTHHEIGHTPIXELS;
+
+                //check if y coordinate finished with bottom right
+                if (y >= SPOTIFYIMAGEWIDTHHEIGHTPIXELS * finalNumOfRows) {
                     return finalImage;
                 }
             }
