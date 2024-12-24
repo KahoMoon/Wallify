@@ -15,68 +15,41 @@ import static spotify.AuthController.spotifyApi;
 
 public class Data {
 
-    public static Artist[] getUserTopArtists() {
+    public static Artist[] getUserTopArtists() throws IOException, ParseException, SpotifyWebApiException {
         final GetUsersTopArtistsRequest getUsersTopArtistsRequest = spotifyApi.getUsersTopArtists().time_range("medium_term").limit(10).build();
 
-        try {
-            final Paging<Artist> artistPaging = getUsersTopArtistsRequest.execute();
-            return artistPaging.getItems();
-        } catch (IOException | ParseException | SpotifyWebApiException e) {
-            System.out.println("Something went wrong! \n" + e.getMessage());
-        }
-
-        return new Artist[0];
+        final Paging<Artist> artistPaging = getUsersTopArtistsRequest.execute();
+        return artistPaging.getItems();
     }
 
-    public static Track[] getUsersTopTracks() {
+    public static Track[] getUsersTopTracks() throws IOException, ParseException, SpotifyWebApiException {
 
         GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi.getUsersTopTracks().limit(10).offset(0).time_range("medium_term")
                 .build();
 
-        try {
-            final Paging<Track> trackPaging = getUsersTopTracksRequest.execute();
+        final Paging<Track> trackPaging = getUsersTopTracksRequest.execute();
 
-            return trackPaging.getItems();
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        return new Track[0];
+        return trackPaging.getItems();
     }
 
-    public static PlaylistSimplified[] getUsersPlaylists() {
+    public static PlaylistSimplified[] getUsersPlaylists() throws IOException, ParseException, SpotifyWebApiException {
         GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
-        User currUser = null;
-        try {
-            currUser = getCurrentUsersProfileRequest.execute();
-        } catch (IOException | ParseException | SpotifyWebApiException e) {
-            return new PlaylistSimplified[0];
-        }
+        User currUser;
+        currUser = getCurrentUsersProfileRequest.execute();
+
 
         GetListOfUsersPlaylistsRequest getListOfUsersPlaylistsRequest = spotifyApi.getListOfUsersPlaylists(currUser.getId()).build();
-        try {
-            getListOfUsersPlaylistsRequest.execute();
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            return new PlaylistSimplified[0];
-        }
+        getListOfUsersPlaylistsRequest.execute();
 
-        final GetListOfUsersPlaylistsRequest getListOfUsersPlaylistsRequest1 = spotifyApi.getListOfUsersPlaylists(currUser.getId()).build();
-        Paging<PlaylistSimplified> playlistSimplifiedPaging = null;
-        try {
-            playlistSimplifiedPaging = getListOfUsersPlaylistsRequest.execute();
-        } catch (IOException | ParseException | SpotifyWebApiException e) {
-            throw new RuntimeException(e);
-        }
+        Paging<PlaylistSimplified> playlistSimplifiedPaging;
+        playlistSimplifiedPaging = getListOfUsersPlaylistsRequest.execute();
 
         return playlistSimplifiedPaging.getItems();
     }
 
-    public static PlaylistTrack[] getPlaylistItems(String playlistID) {
+    public static PlaylistTrack[] getPlaylistItems(String playlistID) throws IOException, ParseException, SpotifyWebApiException {
         GetPlaylistsItemsRequest getPlaylistsItemsRequest = spotifyApi.getPlaylistsItems(playlistID).build();
-        try {
-            Paging<PlaylistTrack> playlistTrackPaging = getPlaylistsItemsRequest.execute();
-            return playlistTrackPaging.getItems();
-        } catch (IOException | ParseException | SpotifyWebApiException e) {
-            return new PlaylistTrack[0];
-        }}
+        Paging<PlaylistTrack> playlistTrackPaging = getPlaylistsItemsRequest.execute();
+        return playlistTrackPaging.getItems();
+    }
 }
