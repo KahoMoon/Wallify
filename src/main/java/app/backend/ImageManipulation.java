@@ -91,6 +91,16 @@ public class ImageManipulation {
         return finalImage;
     }
 
+    public BufferedImage scaleImage(Image image) throws IllegalArgumentException {
+        int width = image.getWidth(null);
+        int height = image.getHeight(null);
+        if (width <= 0 || height <= 0) {
+            throw new IllegalArgumentException("Image dimensions are invalid");
+        }
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        bufferedImage.getGraphics().drawImage(image, 0, 0, null);
 
+        return bufferedImage;
+    }
 
 }
