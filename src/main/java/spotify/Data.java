@@ -6,6 +6,7 @@ import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetListOfUsersPlaylistsRequest;
+import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistCoverImageRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 
@@ -51,5 +52,11 @@ public class Data {
         GetPlaylistsItemsRequest getPlaylistsItemsRequest = spotifyApi.getPlaylistsItems(playlistID).build();
         Paging<PlaylistTrack> playlistTrackPaging = getPlaylistsItemsRequest.execute();
         return playlistTrackPaging.getItems();
+    }
+
+    public static Image[] getPlaylistCover(String playlistId) throws IOException, ParseException, SpotifyWebApiException {
+        final GetPlaylistCoverImageRequest getPlaylistCoverImageRequest = spotifyApi.getPlaylistCoverImage(playlistId).build();
+
+        return getPlaylistCoverImageRequest.execute();
     }
 }
